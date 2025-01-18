@@ -3,6 +3,7 @@ import { ProjectController } from "../controllers/ProjectController";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
 import { TaskController } from "../controllers/TaskController";
+import { projectExists } from "../middleware/project";
 
 const router = Router();
 
@@ -38,5 +39,5 @@ router.delete(
 );
 
 /** Routes for tasks */
-router.post("/:projectId/tasks", TaskController.createTask);
+router.post("/:projectId/tasks", projectExists, TaskController.createTask);
 export default router;
