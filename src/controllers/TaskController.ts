@@ -27,16 +27,8 @@ export class TaskController {
 
   static getProjectTaskById = async (req: Request, res: Response) => {
     try {
-      const { taskId } = req.params;
-      const task = await Task.findById(taskId);
-      console.log(task.project);
-      console.log(req.project.id);
-
-      if (req.task.project.toString() !== req.project.id) {
-        const error = new Error("Accion no valida");
-        res.status(404).json({ error: error.message });
-        return;
-      }
+      // console.log(task.project);
+      // console.log(req.project.id);
       res.json(req.task);
     } catch (error) {
       res.status(500).json({ error: "Hubo un error" });
@@ -45,17 +37,6 @@ export class TaskController {
 
   static updateTask = async (req: Request, res: Response) => {
     try {
-      const { taskId } = req.params;
-      const task = await Task.findById(taskId);
-
-      console.log(task.project);
-      console.log(req.project.id);
-
-      if (req.task.project.toString() !== req.project.id) {
-        const error = new Error("Accion no valida");
-        res.status(404).json({ error: error.message });
-        return;
-      }
       req.task.name = req.body.name;
       req.task.description = req.body.description;
       await req.task.save();
@@ -67,8 +48,6 @@ export class TaskController {
 
   static deleteTask = async (req: Request, res: Response) => {
     try {
-      const { taskId } = req.params;
-      const task = await Task.findById(taskId);
       req.project.tasks = req.project.tasks.filter((task) => task.toString() !== req.task.id.toString());
       await Promise.allSettled([req.task.deleteOne(), req.project.save()]);
       res.send("Tarea Eliminada Correctamente");
@@ -79,11 +58,7 @@ export class TaskController {
 
   static updateStatus = async (req: Request, res: Response) => {
     try {
-      const { taskId } = req.params;
       const { status } = req.body;
-
-      const task = await Task.findById(taskId);
-
       req.task.status = status;
       await req.task.save();
       res.send("Tarea Actualizada");
