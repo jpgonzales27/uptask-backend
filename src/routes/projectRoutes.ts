@@ -9,6 +9,9 @@ import { authenticate } from "../middleware/auth";
 
 const router = Router();
 
+/**
+ * proteje y aplica el middleware a todos los endpoints
+ */
 router.use(authenticate);
 
 router.get("/", ProjectController.getAllProjects);
