@@ -113,4 +113,6 @@ router.delete(
   TeamMemberController.removeMemberById
 );
 
+router.get("/:projectId/team", TeamMemberController.getProjecTeam);
+
 export default router;
